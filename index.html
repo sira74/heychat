@@ -1,0 +1,88 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Eclissi Totale – HeyChat</title>
+  <style>
+    body {
+      margin: 0;
+      background: black;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      height: 100vh;
+    }
+    canvas {
+      display: block;
+      background: radial-gradient(circle at center, orange 0%, darkorange 40%, black 100%);
+    }
+    #finale {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    #finale img {
+      width: 500px;
+      max-width: 90vw;
+    }
+    #finale h1 {
+      color: white;
+      font-family: Arial, sans-serif;
+      font-size: 32px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+<canvas id="eclissi" width="500" height="500"></canvas>
+<div id="finale">
+  <img src="Logo.jpg" alt="HeyChat Logo">
+  <h1>HeyChat</h1>
+</div>
+<script>
+const canvas = document.getElementById("eclissi");
+const ctx = canvas.getContext("2d");
+let frame = 0;
+
+const logo = new Image();
+logo.src = "Logo.jpg";
+
+function drawEclipse() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  const centerX = canvas.width / 2;
+  const centerY = canvas.height / 2;
+  const rSole = 100;
+  const rLuna = 102;
+
+  // Sole
+  ctx.beginPath();
+  ctx.arc(centerX, centerY, rSole, 0, 2 * Math.PI);
+  ctx.fillStyle = "orange";
+  ctx.fill();
+
+  // Luna che si ferma al centro
+  const progress = Math.min(frame / 50, 1);
+  const moonX = centerX - 200 + 200 * progress;
+  ctx.beginPath();
+  ctx.arc(moonX, centerY, rLuna, 0, 2 * Math.PI);
+  ctx.fillStyle = "black";
+  ctx.fill();
+
+  frame++;
+  if (frame < 70) {
+    requestAnimationFrame(drawEclipse);
+  } else {
+    document.getElementById("eclissi").style.display = "none";
+    document.getElementById("finale").style.display = "flex";
+  }
+}
+
+drawEclipse();
+</script>
+</body>
+</html>
